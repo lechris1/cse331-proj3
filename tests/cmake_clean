@@ -1,0 +1,6 @@
+#/usr/bin/env bash
+
+make clean
+
+ rm -rf ./CMakeCache.txt ./CMakeFiles ./CTestTestfile.cmake ./cmake_install.cmake ./Makefile ./tests
+

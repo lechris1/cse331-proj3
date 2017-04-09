@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+
+# uncomment the macro for unit_test
+sed -i "s/\/\/#define UNIT_TEST/#define UNIT_TEST/g" ./HashTable.h 2>/dev/null | true;
+sed -i "" "s/\/\/#define UNIT_TEST/#define UNIT_TEST/g" ./HashTable.h 2>/dev/null | true;
+
+# copy the necessary files
+cp -f HashTable.h Exceptions.h tests/src;
+
+# go into the test dir
+cd ./tests;
+
+# generate the test files
+cmake -DCMAKE_CXX_COMPILER=$(which g++-4.9) CMakeLists.txt;
+
+# generate the test executables and open if compiled successfully
+make tests && ./tests
+# check for seg fault
+if [ $? -eq 139 ]; then
+    printf "\e[31m¯\_(ツ)_/¯\e[0m your program caused a segfault\n"
+    printf "Please refer to the PDF on how to trace this problem (no"
+    printf " promises it'll be simple ;D)\n\n"
+    printf "Run the following commands (in the current terminal) to trace the "
+    printf "segfault, in order:\n"
+    printf "\tgdb ./tests/tests\n"
+    printf "\t(if mac) lldb ./tests/tests\n"
+    printf "\tr\n"
+    printf "\twhere (if gdb)\n"
+    printf "\tbt (if lldb)\n"
+    printf "Read the stack trace and find the exit point. safe travels.\n\n"
+
+    exit 1
+fi
+
+# go back to project dir when we're done
+cd .. ; \
