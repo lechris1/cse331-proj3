@@ -1,6 +1,6 @@
 /**
- * \author YOUR_NAME
- * \netid YOUR_NETID
+ * \author Christopher Le
+ * \netid lechris1
  * \brief ENTER_DESCRIPTION
  *
  * \file HashTable.h
@@ -159,17 +159,30 @@ private:
 };
 
 /**
- * Complete the following function and add a function comment header.
+ * Builds empty HashTable with a total m chains. All chains will be empty. m must be positive.
  */
-HashTable::HashTable(size_t m) : mNumChains(m), mNumItems(0) {
-	throw MissingImplementationException();
-}
+HashTable::HashTable(size_t m) : mNumChains(m), mNumItems(0), mChainArray(new ChainNode*[m]) {}
 
 /**
  * Complete the following function and add a function comment header.
  */
 void HashTable::insert(string key, string value) {
-	throw MissingImplementationException();
+	ChainNode kv(customStringPreHash(key), value); //new node for key and value
+	ChainNode* whichchain = mChainArray[HashFunction(key)]; //find chain with hashvalue
+	while (whichchain->next()) //check if next is nullptr
+	{
+		//if key already exists, value is overwritten with new value
+		if (whichchain->next()->mHashedKey == kv.mHashedKey)
+		{
+			whichchain->next()->mValue = kv.mValue;
+			return;
+		}
+		whichchain = whichchain->next(); //go to next node in chain
+	}
+	//when chain doesn't contain kv
+	whichchain->next() = &kv;
+
+	//GROW
 }
 
 /**
@@ -187,10 +200,10 @@ const string *HashTable::get(string key) const {
 }
 
 /**
- * Complete the following function and add a function comment header.
+ * Returns index of the chain key should be mapped to according to the division method.
  */
-uint64_t HashTable::HashFunction(uint64_t key) const {
-	throw MissingImplementationException();
+uint64_t HashTable::HashFunction(string key) const {
+	return customStringPreHash(key) % mNumChains;
 }
 
 /**
@@ -215,8 +228,8 @@ void HashTable::Rehash(size_t originalSize) {
 }
 
 /**
- * Complete the following function and add a function comment header.
+ * HashTable Destructor
  */
 HashTable::~HashTable() {
-	throw MissingImplementationException();
+	delete[] mChainArray;
 }
