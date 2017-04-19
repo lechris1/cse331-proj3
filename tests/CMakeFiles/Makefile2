@@ -56,8 +56,8 @@ CMAKE_BINARY_DIR = /mnt/d/Documents/MSU/cse331/Project/std/tests
 # Target rules for target CMakeFiles/tests.dir
 
 # All Build rule for target.
-CMakeFiles/tests.dir/all: ext/gtest/CMakeFiles/gtest_main.dir/all
 CMakeFiles/tests.dir/all: ext/gtest/CMakeFiles/gtest.dir/all
+CMakeFiles/tests.dir/all: ext/gtest/CMakeFiles/gtest_main.dir/all
 	$(MAKE) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/depend
 	$(MAKE) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/build
 	$(CMAKE_COMMAND) -E cmake_progress_report /mnt/d/Documents/MSU/cse331/Project/std/tests/CMakeFiles  3

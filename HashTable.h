@@ -49,13 +49,13 @@ uint64_t customStringPreHash(string &data) {
 
 
 class HashTable {
-#if defined(UNIT_TEST)
-	FRIEND_TEST(HashTableProjectTests, TestHashTableSingleElementTable);
-	FRIEND_TEST(HashTableProjectTests, TestHashTableInstance);
-	FRIEND_TEST(HashTableProjectTests, TestHashTableInsert);
-	FRIEND_TEST(HashTableProjectTests, TestHashTableRemove);
-	FRIEND_TEST(HashTableProjectTests, TestHashTableSearch);
-#endif
+//#if defined(UNIT_TEST)
+//	FRIEND_TEST(HashTableProjectTests, TestHashTableSingleElementTable);
+//	FRIEND_TEST(HashTableProjectTests, TestHashTableInstance);
+//	FRIEND_TEST(HashTableProjectTests, TestHashTableInsert);
+//	FRIEND_TEST(HashTableProjectTests, TestHashTableRemove);
+//	FRIEND_TEST(HashTableProjectTests, TestHashTableSearch);
+//#endif
 public:
 	HashTable(size_t m);
 
@@ -100,13 +100,13 @@ private:
 	 * There is no need to modify this class.
 	 */
 	class ChainNode {
-#if defined(UNIT_TEST)
-	FRIEND_TEST(HashTableProjectTests, TestHashTableInstance);
-	FRIEND_TEST(HashTableProjectTests, TestHashTableInsert);
-	FRIEND_TEST(HashTableProjectTests, TestHashTableRemove);
-	FRIEND_TEST(HashTableProjectTests, TestHashTableSearch);
-	FRIEND_TEST(HashTableProjectTests, TestHashTableSingleElementTable);
-#endif
+//#if defined(UNIT_TEST)
+//	FRIEND_TEST(HashTableProjectTests, TestHashTableInstance);
+//	FRIEND_TEST(HashTableProjectTests, TestHashTableInsert);
+//	FRIEND_TEST(HashTableProjectTests, TestHashTableRemove);
+//	FRIEND_TEST(HashTableProjectTests, TestHashTableSearch);
+//	FRIEND_TEST(HashTableProjectTests, TestHashTableSingleElementTable);
+//#endif
 	friend class HashTable;
 
 	public:
@@ -178,22 +178,22 @@ void HashTable::insert(string key, string value) {
 		Double();
 	}
 
-	ChainNode kv(customStringPreHash(key), value); //new node for key and value
+	ChainNode* kv = new ChainNode(customStringPreHash(key), value); //new node for key and value
 	ChainNode* & whichchain = mChainArray[HashFunction(customStringPreHash(key))]; //find chain with hashedkey
 
 	//iterate through chain
-	while (whichchain->next()) //check if next is nullptr
+	while (whichchain) //check if ptr is nullptr
 	{
 		//if key already exists, value is overwritten with new value
-		if (whichchain->next()->mHashedKey == kv.mHashedKey)
+		if (whichchain->mHashedKey == kv->mHashedKey)
 		{
-			whichchain->next()->mValue = kv.mValue;
+			whichchain->mValue = kv->mValue;
 			return;
 		}
 		whichchain = whichchain->next(); //go to next node in chain
 	}
 	//when chain doesn't contain kv, insert at tail of chain
-	whichchain->mNext = &kv;
+	whichchain = kv;
 	mNumItems++;
 
 	//GROW
@@ -213,12 +213,13 @@ void HashTable::remove(string key) {
 	ChainNode* & whichchain = mChainArray[HashFunction(hashedkey)]; //find chain with hashedkey
 
 	//iterate through chain
-	while (whichchain->next()) //check if next is nullptr
+	while (whichchain) //check if ptr is nullptr
 	{
 		//remove node
-		if (whichchain->next()->mHashedKey == hashedkey)
+		if (whichchain->mHashedKey == hashedkey)
 		{
-			whichchain->mNext = whichchain->next()->mNext;
+			whichchain = whichchain->next(); //skip removed node
+			return;
 		}
 		whichchain = whichchain->next(); //go to next node in chain
 	}
@@ -240,11 +241,12 @@ const string *HashTable::get(string key) const {
 	ChainNode* & whichchain = mChainArray[HashFunction(hashedkey)]; //find chain with hashedkey
 
 	//iterate through chain
-	while (whichchain->next()) //check if next is nullptr
+	while (whichchain) //check if next is nullptr
 	{
 		//if key already exists, value is overwritten with new value
-		if (whichchain->next()->mHashedKey == hashedkey)
-			return &(whichchain->next()->mValue);
+		if (whichchain->mHashedKey == hashedkey)
+			return &(whichchain->mValue);
+		whichchain = whichchain->next(); //next node
 	}
 	return nullptr;
 }
@@ -289,12 +291,12 @@ void HashTable::Rehash(size_t originalSize) {
 	for (size_t i = 0; i < originalSize; i++)
 	{
 		ChainNode* & whichchain = mChainArray[i]; //current chain
-		while (whichchain->next())
+		while (whichchain)
 		{
 			//rehash node
-			ChainNode* & newchain = newChainArray[HashFunction(whichchain->next()->mHashedKey)];
+			ChainNode* & newchain = newChainArray[HashFunction(whichchain->mHashedKey)];
 			//go to tail of chain
-			while (newchain->next())
+			while (newchain)
 			{
 				newchain = newchain->next();
 			}

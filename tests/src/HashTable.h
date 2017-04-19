@@ -161,7 +161,12 @@ private:
 /**
  * Builds empty HashTable with a total m chains. All chains will be empty. m must be positive.
  */
-HashTable::HashTable(size_t m) : mNumChains(m), mNumItems(0), mChainArray(new ChainNode*[m]) {}
+HashTable::HashTable(size_t m) : mNumChains(m), mNumItems(0), mChainArray(new ChainNode*[m]) {
+	for (size_t i = 0; i < m; i++)
+	{
+		mChainArray[i] = nullptr;
+	}
+}
 
 /**
  * Add a key-value pair to the HashTable.
@@ -173,22 +178,22 @@ void HashTable::insert(string key, string value) {
 		Double();
 	}
 
-	ChainNode kv(customStringPreHash(key), value); //new node for key and value
+	ChainNode* kv = new ChainNode(customStringPreHash(key), value); //new node for key and value
 	ChainNode* & whichchain = mChainArray[HashFunction(customStringPreHash(key))]; //find chain with hashedkey
 
 	//iterate through chain
-	while (whichchain->next()) //check if next is nullptr
+	while (whichchain) //check if ptr is nullptr
 	{
 		//if key already exists, value is overwritten with new value
-		if (whichchain->next()->mHashedKey == kv.mHashedKey)
+		if (whichchain->mHashedKey == kv->mHashedKey)
 		{
-			whichchain->next()->mValue = kv.mValue;
+			whichchain->mValue = kv->mValue;
 			return;
 		}
 		whichchain = whichchain->next(); //go to next node in chain
 	}
 	//when chain doesn't contain kv, insert at tail of chain
-	whichchain->mNext = &kv;
+	whichchain = kv;
 	mNumItems++;
 
 	//GROW
@@ -208,12 +213,12 @@ void HashTable::remove(string key) {
 	ChainNode* & whichchain = mChainArray[HashFunction(hashedkey)]; //find chain with hashedkey
 
 	//iterate through chain
-	while (whichchain->next()) //check if next is nullptr
+	while (whichchain) //check if ptr is nullptr
 	{
 		//remove node
-		if (whichchain->next()->mHashedKey == hashedkey)
+		if (whichchain->mHashedKey == hashedkey)
 		{
-			whichchain->mNext = whichchain->next()->mNext;
+			whichchain = whichchain->next()->next(); //skip removed node
 		}
 		whichchain = whichchain->next(); //go to next node in chain
 	}
@@ -235,11 +240,11 @@ const string *HashTable::get(string key) const {
 	ChainNode* & whichchain = mChainArray[HashFunction(hashedkey)]; //find chain with hashedkey
 
 	//iterate through chain
-	while (whichchain->next()) //check if next is nullptr
+	while (whichchain) //check if next is nullptr
 	{
 		//if key already exists, value is overwritten with new value
-		if (whichchain->next()->mHashedKey == hashedkey)
-			return &(whichchain->next()->mValue);
+		if (whichchain->mHashedKey == hashedkey)
+			return &(whichchain->mValue);
 	}
 	return nullptr;
 }
@@ -284,12 +289,12 @@ void HashTable::Rehash(size_t originalSize) {
 	for (size_t i = 0; i < originalSize; i++)
 	{
 		ChainNode* & whichchain = mChainArray[i]; //current chain
-		while (whichchain->next())
+		while (whichchain)
 		{
 			//rehash node
-			ChainNode* & newchain = newChainArray[HashFunction(whichchain->next()->mHashedKey)];
+			ChainNode* & newchain = newChainArray[HashFunction(whichchain->mHashedKey)];
 			//go to tail of chain
-			while (newchain->next())
+			while (newchain)
 			{
 				newchain = newchain->next();
 			}
