@@ -37,7 +37,7 @@ TEST_F(HashTableProjectTests, TestHashTableInstance)
 		EXPECT_TRUE(t.mNumChains == 5) << "HashTable should have 5 chains if 5 is "
               "passed to the constructor.";
 
-    for (int i = 0; i < t.mNumChains; i++)
+    for (size_t i = 0; i < t.mNumChains; i++)
     {
         EXPECT_EQ(t.mChainArray[i], nullptr) << "All of the chains should "
           "point to nullptr on initialization.";

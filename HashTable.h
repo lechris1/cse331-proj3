@@ -161,14 +161,25 @@ private:
 /**
  * Builds empty HashTable with a total m chains. All chains will be empty. m must be positive.
  */
-HashTable::HashTable(size_t m) : mNumChains(m), mNumItems(0), mChainArray(new ChainNode*[m]) {}
+HashTable::HashTable(size_t m) : mNumChains(m), mNumItems(0), mChainArray(new ChainNode*[m]) {
+	for (size_t i = 0; i < m; i++)
+	{
+		mChainArray[i] = nullptr;
+	}
+}
 
 /**
  * Add a key-value pair to the HashTable.
  */
 void HashTable::insert(string key, string value) {
+	//check for HashTable of size 0
+	if (mNumChains == 0)
+	{
+		Double();
+	}
+
 	ChainNode kv(customStringPreHash(key), value); //new node for key and value
-	ChainNode* & whichchain = mChainArray[HashFunction(key)]; //find chain with hashedkey
+	ChainNode* & whichchain = mChainArray[HashFunction(customStringPreHash(key))]; //find chain with hashedkey
 
 	//iterate through chain
 	while (whichchain->next()) //check if next is nullptr
@@ -182,7 +193,7 @@ void HashTable::insert(string key, string value) {
 		whichchain = whichchain->next(); //go to next node in chain
 	}
 	//when chain doesn't contain kv, insert at tail of chain
-	whichchain->next() = &kv;
+	whichchain->mNext = &kv;
 	mNumItems++;
 
 	//GROW
@@ -199,7 +210,7 @@ void HashTable::remove(string key) {
 		return;
 
 	uint64_t hashedkey = customStringPreHash(key);
-	ChainNode* & whichchain = mChainArray[HashFunction(key)]; //find chain with hashedkey
+	ChainNode* & whichchain = mChainArray[HashFunction(hashedkey)]; //find chain with hashedkey
 
 	//iterate through chain
 	while (whichchain->next()) //check if next is nullptr
@@ -226,7 +237,7 @@ const string *HashTable::get(string key) const {
 		return nullptr;
 
 	uint64_t hashedkey = customStringPreHash(key);
-	ChainNode* & whichchain = mChainArray[HashFunction(key)]; //find chain with hashedkey
+	ChainNode* & whichchain = mChainArray[HashFunction(hashedkey)]; //find chain with hashedkey
 
 	//iterate through chain
 	while (whichchain->next()) //check if next is nullptr
@@ -241,8 +252,8 @@ const string *HashTable::get(string key) const {
 /**
  * Returns index of the chain key should be mapped to according to the division method.
  */
-uint64_t HashTable::HashFunction(string key) const {
-	return customStringPreHash(key) % mNumChains;
+uint64_t HashTable::HashFunction(uint64_t key) const {
+	return key % mNumChains;
 }
 
 /**
@@ -251,6 +262,11 @@ uint64_t HashTable::HashFunction(string key) const {
 void HashTable::Double() {
 	size_t og = mNumChains;
 	mNumChains *= 2;
+
+	//check for HashTable of size 0
+	if (mNumChains == 0)
+		mNumChains = 1;
+
 	Rehash(og);
 }
 
@@ -267,17 +283,28 @@ void HashTable::Shrink() {
  * Rehashes the items in the Hash Table to align with the current HashFunction.
  */
 void HashTable::Rehash(size_t originalSize) {
-	ChainNode **oldChainArray = mChainArray; //copy old ChainArray
+	ChainNode **newChainArray = new ChainNode*[mNumChains]; //new ChainArray
 
 	//iterate through chainarray
 	for (size_t i = 0; i < originalSize; i++)
 	{
-		ChainNode* & whichchain = oldChainArray[i]; //current chain
+		ChainNode* & whichchain = mChainArray[i]; //current chain
 		while (whichchain->next())
 		{
-			
+			//rehash node
+			ChainNode* & newchain = newChainArray[HashFunction(whichchain->next()->mHashedKey)];
+			//go to tail of chain
+			while (newchain->next())
+			{
+				newchain = newchain->next();
+			}
+			newchain->mNext = whichchain->mNext; //reassign ChainNode to newChainArray
+			whichchain = whichchain->next(); //next node in chain
 		}
 	}
+
+	delete[] mChainArray; //reallocate memory for newChainArray
+	mChainArray = newChainArray;
 }
 
 /**

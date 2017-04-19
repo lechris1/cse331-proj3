@@ -1,6 +1,6 @@
 /**
- * \author YOUR_NAME
- * \netid YOUR_NETID
+ * \author Christopher Le
+ * \netid lechris1
  * \brief ENTER_DESCRIPTION
  *
  * \file HashTable.h
@@ -159,64 +159,152 @@ private:
 };
 
 /**
- * Complete the following function and add a function comment header.
+ * Builds empty HashTable with a total m chains. All chains will be empty. m must be positive.
  */
-HashTable::HashTable(size_t m) : mNumChains(m), mNumItems(0) {
-	throw MissingImplementationException();
-}
+HashTable::HashTable(size_t m) : mNumChains(m), mNumItems(0), mChainArray(new ChainNode*[m]) {}
 
 /**
- * Complete the following function and add a function comment header.
+ * Add a key-value pair to the HashTable.
  */
 void HashTable::insert(string key, string value) {
-	throw MissingImplementationException();
+	//check for HashTable of size 0
+	if (mNumChains == 0)
+	{
+		Double();
+	}
+
+	ChainNode kv(customStringPreHash(key), value); //new node for key and value
+	ChainNode* & whichchain = mChainArray[HashFunction(customStringPreHash(key))]; //find chain with hashedkey
+
+	//iterate through chain
+	while (whichchain->next()) //check if next is nullptr
+	{
+		//if key already exists, value is overwritten with new value
+		if (whichchain->next()->mHashedKey == kv.mHashedKey)
+		{
+			whichchain->next()->mValue = kv.mValue;
+			return;
+		}
+		whichchain = whichchain->next(); //go to next node in chain
+	}
+	//when chain doesn't contain kv, insert at tail of chain
+	whichchain->mNext = &kv;
+	mNumItems++;
+
+	//GROW
+	if (mNumItems > mNumChains)
+		Double();
 }
 
 /**
- * Complete the following function and add a function comment header.
+ * Remove a key-value pair from the HashTable.
  */
 void HashTable::remove(string key) {
-	throw MissingImplementationException();
+	//check for HashTable of size 0
+	if (mNumChains == 0)
+		return;
+
+	uint64_t hashedkey = customStringPreHash(key);
+	ChainNode* & whichchain = mChainArray[HashFunction(hashedkey)]; //find chain with hashedkey
+
+	//iterate through chain
+	while (whichchain->next()) //check if next is nullptr
+	{
+		//remove node
+		if (whichchain->next()->mHashedKey == hashedkey)
+		{
+			whichchain->mNext = whichchain->next()->mNext;
+		}
+		whichchain = whichchain->next(); //go to next node in chain
+	}
+	
+	//SHRINK
+	if (mNumItems <= mNumChains/4)
+		Shrink();
 }
 
 /**
- * Complete the following function and add a function comment header.
+ * Returns a pointer to the value of the key in the HashTable if found, otherwise returns nullptr.
  */
 const string *HashTable::get(string key) const {
-	throw MissingImplementationException();
+	//check for HashTable of size 0
+	if (mNumChains == 0)
+		return nullptr;
+
+	uint64_t hashedkey = customStringPreHash(key);
+	ChainNode* & whichchain = mChainArray[HashFunction(hashedkey)]; //find chain with hashedkey
+
+	//iterate through chain
+	while (whichchain->next()) //check if next is nullptr
+	{
+		//if key already exists, value is overwritten with new value
+		if (whichchain->next()->mHashedKey == hashedkey)
+			return &(whichchain->next()->mValue);
+	}
+	return nullptr;
 }
 
 /**
- * Complete the following function and add a function comment header.
+ * Returns index of the chain key should be mapped to according to the division method.
  */
 uint64_t HashTable::HashFunction(uint64_t key) const {
-	throw MissingImplementationException();
+	return key % mNumChains;
 }
 
 /**
- * Complete the following function and add a function comment header.
+ * Grows the Hash Table such that m = 2m.
  */
 void HashTable::Double() {
-	throw MissingImplementationException();
+	size_t og = mNumChains;
+	mNumChains *= 2;
+
+	//check for HashTable of size 0
+	if (mNumChains == 0)
+		mNumChains = 1;
+
+	Rehash(og);
 }
 
 /**
- * Complete the following function and add a function comment header.
+ * Shrinks the Hash Table such that m = m/2.
  */
 void HashTable::Shrink() {
-	throw MissingImplementationException();
+	size_t og = mNumChains;
+	mNumChains /= 2;
+	Rehash(og);
 }
 
 /**
- * Complete the following function and add a function comment header.
+ * Rehashes the items in the Hash Table to align with the current HashFunction.
  */
 void HashTable::Rehash(size_t originalSize) {
-	throw MissingImplementationException();
+	ChainNode **newChainArray = new ChainNode*[mNumChains]; //new ChainArray
+
+	//iterate through chainarray
+	for (size_t i = 0; i < originalSize; i++)
+	{
+		ChainNode* & whichchain = mChainArray[i]; //current chain
+		while (whichchain->next())
+		{
+			//rehash node
+			ChainNode* & newchain = newChainArray[HashFunction(whichchain->next()->mHashedKey)];
+			//go to tail of chain
+			while (newchain->next())
+			{
+				newchain = newchain->next();
+			}
+			newchain->mNext = whichchain->mNext; //reassign ChainNode to newChainArray
+			whichchain = whichchain->next(); //next node in chain
+		}
+	}
+
+	delete[] mChainArray; //reallocate memory for newChainArray
+	mChainArray = newChainArray;
 }
 
 /**
- * Complete the following function and add a function comment header.
+ * HashTable Destructor
  */
 HashTable::~HashTable() {
-	throw MissingImplementationException();
+	delete[] mChainArray;
 }
