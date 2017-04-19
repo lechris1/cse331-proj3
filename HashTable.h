@@ -7,7 +7,7 @@
  */
 
 /** DO NOT MODIFY THE LINE BELOW THIS. IT WILL BE USED FOR TESTING. */
-#define UNIT_TEST
+//#define UNIT_TEST
 
 // C++ code
 #include <iostream>
@@ -49,13 +49,13 @@ uint64_t customStringPreHash(string &data) {
 
 
 class HashTable {
-//#if defined(UNIT_TEST)
-//	FRIEND_TEST(HashTableProjectTests, TestHashTableSingleElementTable);
-//	FRIEND_TEST(HashTableProjectTests, TestHashTableInstance);
-//	FRIEND_TEST(HashTableProjectTests, TestHashTableInsert);
-//	FRIEND_TEST(HashTableProjectTests, TestHashTableRemove);
-//	FRIEND_TEST(HashTableProjectTests, TestHashTableSearch);
-//#endif
+#if defined(UNIT_TEST)
+	FRIEND_TEST(HashTableProjectTests, TestHashTableSingleElementTable);
+	FRIEND_TEST(HashTableProjectTests, TestHashTableInstance);
+	FRIEND_TEST(HashTableProjectTests, TestHashTableInsert);
+	FRIEND_TEST(HashTableProjectTests, TestHashTableRemove);
+	FRIEND_TEST(HashTableProjectTests, TestHashTableSearch);
+#endif
 public:
 	HashTable(size_t m);
 
@@ -100,13 +100,13 @@ private:
 	 * There is no need to modify this class.
 	 */
 	class ChainNode {
-//#if defined(UNIT_TEST)
-//	FRIEND_TEST(HashTableProjectTests, TestHashTableInstance);
-//	FRIEND_TEST(HashTableProjectTests, TestHashTableInsert);
-//	FRIEND_TEST(HashTableProjectTests, TestHashTableRemove);
-//	FRIEND_TEST(HashTableProjectTests, TestHashTableSearch);
-//	FRIEND_TEST(HashTableProjectTests, TestHashTableSingleElementTable);
-//#endif
+#if defined(UNIT_TEST)
+	FRIEND_TEST(HashTableProjectTests, TestHashTableInstance);
+	FRIEND_TEST(HashTableProjectTests, TestHashTableInsert);
+	FRIEND_TEST(HashTableProjectTests, TestHashTableRemove);
+	FRIEND_TEST(HashTableProjectTests, TestHashTableSearch);
+	FRIEND_TEST(HashTableProjectTests, TestHashTableSingleElementTable);
+#endif
 	friend class HashTable;
 
 	public:
@@ -179,22 +179,34 @@ void HashTable::insert(string key, string value) {
 	}
 
 	ChainNode* kv = new ChainNode(customStringPreHash(key), value); //new node for key and value
-	ChainNode* & whichchain = mChainArray[HashFunction(customStringPreHash(key))]; //find chain with hashedkey
+	ChainNode* whichchain = mChainArray[HashFunction(customStringPreHash(key))]; //find chain with hashedkey
 
-	//iterate through chain
-	while (whichchain) //check if ptr is nullptr
-	{
-		//if key already exists, value is overwritten with new value
-		if (whichchain->mHashedKey == kv->mHashedKey)
-		{
-			whichchain->mValue = kv->mValue;
-			return;
-		}
-		whichchain = whichchain->next(); //go to next node in chain
+	if (!whichchain) {
+		mChainArray[HashFunction(customStringPreHash(key))] = kv;
+		mNumItems++;
 	}
-	//when chain doesn't contain kv, insert at tail of chain
-	whichchain = kv;
-	mNumItems++;
+	else {
+		//iterate through chain
+		while (whichchain) //check if ptr is nullptr
+		{
+			//if key already exists, value is overwritten with new value
+			if (whichchain->mHashedKey == kv->mHashedKey)
+			{
+				whichchain->mValue = kv->mValue;
+				delete kv;
+				return;
+			}
+			if (!(whichchain->mNext))
+			{
+				//when chain doesn't contain kv, insert at tail of chain
+				whichchain->mNext = kv;
+				mNumItems++;
+				whichchain = whichchain->next(); //go to next node in chain
+			}
+			whichchain = whichchain->next(); //go to next node in chain
+		}
+	}
+
 
 	//GROW
 	if (mNumItems > mNumChains)
@@ -219,14 +231,14 @@ void HashTable::remove(string key) {
 		if (whichchain->mHashedKey == hashedkey)
 		{
 			whichchain = whichchain->next(); //skip removed node
+			mNumItems--;
+			//SHRINK
+			if (mNumItems <= mNumChains / 4)
+				Shrink();
 			return;
 		}
 		whichchain = whichchain->next(); //go to next node in chain
 	}
-	
-	//SHRINK
-	if (mNumItems <= mNumChains/4)
-		Shrink();
 }
 
 /**
@@ -286,6 +298,10 @@ void HashTable::Shrink() {
  */
 void HashTable::Rehash(size_t originalSize) {
 	ChainNode **newChainArray = new ChainNode*[mNumChains]; //new ChainArray
+	for (size_t i = 0; i < mNumChains; i++)
+	{
+		newChainArray[i] = nullptr;
+	}
 
 	//iterate through chainarray
 	for (size_t i = 0; i < originalSize; i++)
@@ -300,7 +316,7 @@ void HashTable::Rehash(size_t originalSize) {
 			{
 				newchain = newchain->next();
 			}
-			newchain->mNext = whichchain->mNext; //reassign ChainNode to newChainArray
+			newchain = whichchain; //reassign ChainNode to newChainArray
 			whichchain = whichchain->next(); //next node in chain
 		}
 	}
@@ -313,5 +329,6 @@ void HashTable::Rehash(size_t originalSize) {
  * HashTable Destructor
  */
 HashTable::~HashTable() {
+
 	delete[] mChainArray;
 }

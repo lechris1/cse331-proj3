@@ -6,23 +6,23 @@
 
 #IncludeRegexTransform: 
 
-/mnt/d/Documents/MSU/cse331/Project/std/tests/ext/gtest/src/gtest-all.cc
+/mnt/c/Users/KryStL/Documents/CSE331/cse331-proj3/tests/ext/gtest/src/gtest-all.cc
 gtest/gtest.h
-/mnt/d/Documents/MSU/cse331/Project/std/tests/ext/gtest/src/gtest/gtest.h
+/mnt/c/Users/KryStL/Documents/CSE331/cse331-proj3/tests/ext/gtest/src/gtest/gtest.h
 src/gtest.cc
-/mnt/d/Documents/MSU/cse331/Project/std/tests/ext/gtest/src/src/gtest.cc
+/mnt/c/Users/KryStL/Documents/CSE331/cse331-proj3/tests/ext/gtest/src/src/gtest.cc
 src/gtest-death-test.cc
-/mnt/d/Documents/MSU/cse331/Project/std/tests/ext/gtest/src/src/gtest-death-test.cc
+/mnt/c/Users/KryStL/Documents/CSE331/cse331-proj3/tests/ext/gtest/src/src/gtest-death-test.cc
 src/gtest-filepath.cc
-/mnt/d/Documents/MSU/cse331/Project/std/tests/ext/gtest/src/src/gtest-filepath.cc
+/mnt/c/Users/KryStL/Documents/CSE331/cse331-proj3/tests/ext/gtest/src/src/gtest-filepath.cc
 src/gtest-port.cc
-/mnt/d/Documents/MSU/cse331/Project/std/tests/ext/gtest/src/src/gtest-port.cc
+/mnt/c/Users/KryStL/Documents/CSE331/cse331-proj3/tests/ext/gtest/src/src/gtest-port.cc
 src/gtest-printers.cc
-/mnt/d/Documents/MSU/cse331/Project/std/tests/ext/gtest/src/src/gtest-printers.cc
+/mnt/c/Users/KryStL/Documents/CSE331/cse331-proj3/tests/ext/gtest/src/src/gtest-printers.cc
 src/gtest-test-part.cc
-/mnt/d/Documents/MSU/cse331/Project/std/tests/ext/gtest/src/src/gtest-test-part.cc
+/mnt/c/Users/KryStL/Documents/CSE331/cse331-proj3/tests/ext/gtest/src/src/gtest-test-part.cc
 src/gtest-typed-test.cc
-/mnt/d/Documents/MSU/cse331/Project/std/tests/ext/gtest/src/src/gtest-typed-test.cc
+/mnt/c/Users/KryStL/Documents/CSE331/cse331-proj3/tests/ext/gtest/src/src/gtest-typed-test.cc
 
 ext/gtest/include/gtest/gtest-death-test.h
 gtest/internal/gtest-death-test-internal.h

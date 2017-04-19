@@ -1,3 +1,0 @@
-/mnt/d/Documents/MSU/cse331/Project/std/tests/ext/gtest/CMakeFiles/gtest.dir
-/mnt/d/Documents/MSU/cse331/Project/std/tests/ext/gtest/CMakeFiles/gtest_main.dir
-/mnt/d/Documents/MSU/cse331/Project/std/tests/CMakeFiles/tests.dir
