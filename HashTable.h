@@ -164,11 +164,13 @@ private:
 HashTable::HashTable(size_t m) : mNumChains(m), mNumItems(0), mChainArray(new ChainNode*[m]) {}
 
 /**
- * Complete the following function and add a function comment header.
+ * Add a key-value pair to the HashTable.
  */
 void HashTable::insert(string key, string value) {
 	ChainNode kv(customStringPreHash(key), value); //new node for key and value
-	ChainNode* whichchain = mChainArray[HashFunction(key)]; //find chain with hashedkey
+	ChainNode* & whichchain = mChainArray[HashFunction(key)]; //find chain with hashedkey
+
+	//iterate through chain
 	while (whichchain->next()) //check if next is nullptr
 	{
 		//if key already exists, value is overwritten with new value
@@ -181,23 +183,52 @@ void HashTable::insert(string key, string value) {
 	}
 	//when chain doesn't contain kv, insert at tail of chain
 	whichchain->next() = &kv;
+	mNumItems++;
 
 	//GROW
+	if (mNumItems > mNumChains)
+		Double();
 }
 
 /**
- * Complete the following function and add a function comment header.
+ * Remove a key-value pair from the HashTable.
  */
 void HashTable::remove(string key) {
-	throw MissingImplementationException();
+	//check for HashTable of size 0
+	if (mNumChains == 0)
+		return;
+
+	uint64_t hashedkey = customStringPreHash(key);
+	ChainNode* & whichchain = mChainArray[HashFunction(key)]; //find chain with hashedkey
+
+	//iterate through chain
+	while (whichchain->next()) //check if next is nullptr
+	{
+		//remove node
+		if (whichchain->next()->mHashedKey == hashedkey)
+		{
+			whichchain->mNext = whichchain->next()->mNext;
+		}
+		whichchain = whichchain->next(); //go to next node in chain
+	}
+	
+	//SHRINK
+	if (mNumItems <= mNumChains/4)
+		Shrink();
 }
 
 /**
  * Returns a pointer to the value of the key in the HashTable if found, otherwise returns nullptr.
  */
 const string *HashTable::get(string key) const {
+	//check for HashTable of size 0
+	if (mNumChains == 0)
+		return nullptr;
+
 	uint64_t hashedkey = customStringPreHash(key);
-	ChainNode* whichchain = mChainArray[HashFunction(key)]; //find chain with hashedkey
+	ChainNode* & whichchain = mChainArray[HashFunction(key)]; //find chain with hashedkey
+
+	//iterate through chain
 	while (whichchain->next()) //check if next is nullptr
 	{
 		//if key already exists, value is overwritten with new value
@@ -215,24 +246,38 @@ uint64_t HashTable::HashFunction(string key) const {
 }
 
 /**
- * Complete the following function and add a function comment header.
+ * Grows the Hash Table such that m = 2m.
  */
 void HashTable::Double() {
-	throw MissingImplementationException();
+	size_t og = mNumChains;
+	mNumChains *= 2;
+	Rehash(og);
 }
 
 /**
- * Complete the following function and add a function comment header.
+ * Shrinks the Hash Table such that m = m/2.
  */
 void HashTable::Shrink() {
-	throw MissingImplementationException();
+	size_t og = mNumChains;
+	mNumChains /= 2;
+	Rehash(og);
 }
 
 /**
- * Complete the following function and add a function comment header.
+ * Rehashes the items in the Hash Table to align with the current HashFunction.
  */
 void HashTable::Rehash(size_t originalSize) {
-	throw MissingImplementationException();
+	ChainNode **oldChainArray = mChainArray; //copy old ChainArray
+
+	//iterate through chainarray
+	for (size_t i = 0; i < originalSize; i++)
+	{
+		ChainNode* & whichchain = oldChainArray[i]; //current chain
+		while (whichchain->next())
+		{
+			
+		}
+	}
 }
 
 /**
