@@ -223,7 +223,11 @@ void HashTable::remove(string key) {
 	uint64_t hashedkey = customStringPreHash(key);
 	ChainNode* whichchain = mChainArray[HashFunction(hashedkey)]; //find chain with hashedkey
 
-	if (whichchain && (whichchain->mHashedKey == hashedkey))
+	if (!whichchain)
+	{
+		return;
+	}
+	else if (whichchain && (whichchain->mHashedKey == hashedkey))
 	{
 		mChainArray[HashFunction(hashedkey)] = whichchain->mNext;
 		mNumItems--;
