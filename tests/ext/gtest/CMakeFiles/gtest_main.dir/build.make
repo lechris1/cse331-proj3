@@ -52,16 +52,16 @@ include ext/gtest/CMakeFiles/gtest_main.dir/flags.make
 ext/gtest/CMakeFiles/gtest_main.dir/src/gtest_main.cc.o: ext/gtest/CMakeFiles/gtest_main.dir/flags.make
 ext/gtest/CMakeFiles/gtest_main.dir/src/gtest_main.cc.o: ext/gtest/src/gtest_main.cc
 	$(CMAKE_COMMAND) -E cmake_progress_report /mnt/c/Users/KryStL/Documents/CSE331/cse331-proj3/tests/CMakeFiles $(CMAKE_PROGRESS_1)
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object ext/gtest/CMakeFiles/gtest_main.dir/src/gtest_main.cc.o"
-	cd /mnt/c/Users/KryStL/Documents/CSE331/cse331-proj3/tests/ext/gtest && /usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/gtest_main.dir/src/gtest_main.cc.o -c /mnt/c/Users/KryStL/Documents/CSE331/cse331-proj3/tests/ext/gtest/src/gtest_main.cc
+	@echo "Building CXX object ext/gtest/CMakeFiles/gtest_main.dir/src/gtest_main.cc.o"
+	cd /mnt/c/Users/KryStL/Documents/CSE331/cse331-proj3/tests/ext/gtest && ""   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/gtest_main.dir/src/gtest_main.cc.o -c /mnt/c/Users/KryStL/Documents/CSE331/cse331-proj3/tests/ext/gtest/src/gtest_main.cc
 
 ext/gtest/CMakeFiles/gtest_main.dir/src/gtest_main.cc.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/gtest_main.dir/src/gtest_main.cc.i"
-	cd /mnt/c/Users/KryStL/Documents/CSE331/cse331-proj3/tests/ext/gtest && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /mnt/c/Users/KryStL/Documents/CSE331/cse331-proj3/tests/ext/gtest/src/gtest_main.cc > CMakeFiles/gtest_main.dir/src/gtest_main.cc.i
+	@echo "Preprocessing CXX source to CMakeFiles/gtest_main.dir/src/gtest_main.cc.i"
+	cd /mnt/c/Users/KryStL/Documents/CSE331/cse331-proj3/tests/ext/gtest && ""  $(CXX_DEFINES) $(CXX_FLAGS) -E /mnt/c/Users/KryStL/Documents/CSE331/cse331-proj3/tests/ext/gtest/src/gtest_main.cc > CMakeFiles/gtest_main.dir/src/gtest_main.cc.i
 
 ext/gtest/CMakeFiles/gtest_main.dir/src/gtest_main.cc.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/gtest_main.dir/src/gtest_main.cc.s"
-	cd /mnt/c/Users/KryStL/Documents/CSE331/cse331-proj3/tests/ext/gtest && /usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /mnt/c/Users/KryStL/Documents/CSE331/cse331-proj3/tests/ext/gtest/src/gtest_main.cc -o CMakeFiles/gtest_main.dir/src/gtest_main.cc.s
+	@echo "Compiling CXX source to assembly CMakeFiles/gtest_main.dir/src/gtest_main.cc.s"
+	cd /mnt/c/Users/KryStL/Documents/CSE331/cse331-proj3/tests/ext/gtest && ""  $(CXX_DEFINES) $(CXX_FLAGS) -S /mnt/c/Users/KryStL/Documents/CSE331/cse331-proj3/tests/ext/gtest/src/gtest_main.cc -o CMakeFiles/gtest_main.dir/src/gtest_main.cc.s
 
 ext/gtest/CMakeFiles/gtest_main.dir/src/gtest_main.cc.o.requires:
 .PHONY : ext/gtest/CMakeFiles/gtest_main.dir/src/gtest_main.cc.o.requires
@@ -82,7 +82,7 @@ gtest_main_EXTERNAL_OBJECTS =
 ext/gtest/libgtest_main.a: ext/gtest/CMakeFiles/gtest_main.dir/src/gtest_main.cc.o
 ext/gtest/libgtest_main.a: ext/gtest/CMakeFiles/gtest_main.dir/build.make
 ext/gtest/libgtest_main.a: ext/gtest/CMakeFiles/gtest_main.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --red --bold "Linking CXX static library libgtest_main.a"
+	@echo "Linking CXX static library libgtest_main.a"
 	cd /mnt/c/Users/KryStL/Documents/CSE331/cse331-proj3/tests/ext/gtest && $(CMAKE_COMMAND) -P CMakeFiles/gtest_main.dir/cmake_clean_target.cmake
 	cd /mnt/c/Users/KryStL/Documents/CSE331/cse331-proj3/tests/ext/gtest && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/gtest_main.dir/link.txt --verbose=$(VERBOSE)
 
@@ -98,6 +98,6 @@ ext/gtest/CMakeFiles/gtest_main.dir/clean:
 .PHONY : ext/gtest/CMakeFiles/gtest_main.dir/clean
 
 ext/gtest/CMakeFiles/gtest_main.dir/depend:
-	cd /mnt/c/Users/KryStL/Documents/CSE331/cse331-proj3/tests && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /mnt/c/Users/KryStL/Documents/CSE331/cse331-proj3/tests /mnt/c/Users/KryStL/Documents/CSE331/cse331-proj3/tests/ext/gtest /mnt/c/Users/KryStL/Documents/CSE331/cse331-proj3/tests /mnt/c/Users/KryStL/Documents/CSE331/cse331-proj3/tests/ext/gtest /mnt/c/Users/KryStL/Documents/CSE331/cse331-proj3/tests/ext/gtest/CMakeFiles/gtest_main.dir/DependInfo.cmake --color=$(COLOR)
+	cd /mnt/c/Users/KryStL/Documents/CSE331/cse331-proj3/tests && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /mnt/c/Users/KryStL/Documents/CSE331/cse331-proj3/tests /mnt/c/Users/KryStL/Documents/CSE331/cse331-proj3/tests/ext/gtest /mnt/c/Users/KryStL/Documents/CSE331/cse331-proj3/tests /mnt/c/Users/KryStL/Documents/CSE331/cse331-proj3/tests/ext/gtest /mnt/c/Users/KryStL/Documents/CSE331/cse331-proj3/tests/ext/gtest/CMakeFiles/gtest_main.dir/DependInfo.cmake
 .PHONY : ext/gtest/CMakeFiles/gtest_main.dir/depend
 

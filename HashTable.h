@@ -7,7 +7,7 @@
  */
 
 /** DO NOT MODIFY THE LINE BELOW THIS. IT WILL BE USED FOR TESTING. */
-//#define UNIT_TEST
+#define UNIT_TEST
 
 // C++ code
 #include <iostream>

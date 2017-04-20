@@ -110,14 +110,14 @@ test/fast: test
 
 # The main all target
 all: cmake_check_build_system
-	cd /mnt/c/Users/KryStL/Documents/CSE331/cse331-proj3/tests && $(CMAKE_COMMAND) -E cmake_progress_start /mnt/c/Users/KryStL/Documents/CSE331/cse331-proj3/tests/CMakeFiles /mnt/c/Users/KryStL/Documents/CSE331/cse331-proj3/tests/ext/gtest/CMakeFiles/progress.marks
-	cd /mnt/c/Users/KryStL/Documents/CSE331/cse331-proj3/tests && $(MAKE) -f CMakeFiles/Makefile2 ext/gtest/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/c/Users/KryStL/Documents/CSE331/cse331-proj3/tests/CMakeFiles /mnt/c/Users/KryStL/Documents/CSE331/cse331-proj3/tests/CMakeFiles/progress.marks
+	$(MAKE) -f CMakeFiles/Makefile2 all
 	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/c/Users/KryStL/Documents/CSE331/cse331-proj3/tests/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /mnt/c/Users/KryStL/Documents/CSE331/cse331-proj3/tests && $(MAKE) -f CMakeFiles/Makefile2 ext/gtest/clean
+	$(MAKE) -f CMakeFiles/Makefile2 clean
 .PHONY : clean
 
 # The main clean target
@@ -126,94 +126,81 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /mnt/c/Users/KryStL/Documents/CSE331/cse331-proj3/tests && $(MAKE) -f CMakeFiles/Makefile2 ext/gtest/preinstall
+	$(MAKE) -f CMakeFiles/Makefile2 preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /mnt/c/Users/KryStL/Documents/CSE331/cse331-proj3/tests && $(MAKE) -f CMakeFiles/Makefile2 ext/gtest/preinstall
+	$(MAKE) -f CMakeFiles/Makefile2 preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	cd /mnt/c/Users/KryStL/Documents/CSE331/cse331-proj3/tests && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	$(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
-# Convenience name for target.
-ext/gtest/CMakeFiles/gtest.dir/rule:
-	cd /mnt/c/Users/KryStL/Documents/CSE331/cse331-proj3/tests && $(MAKE) -f CMakeFiles/Makefile2 ext/gtest/CMakeFiles/gtest.dir/rule
-.PHONY : ext/gtest/CMakeFiles/gtest.dir/rule
+#=============================================================================
+# Target rules for targets named tests
 
-# Convenience name for target.
-gtest: ext/gtest/CMakeFiles/gtest.dir/rule
+# Build rule for target.
+tests: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 tests
+.PHONY : tests
+
+# fast build rule for target.
+tests/fast:
+	$(MAKE) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/build
+.PHONY : tests/fast
+
+#=============================================================================
+# Target rules for targets named gtest
+
+# Build rule for target.
+gtest: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 gtest
 .PHONY : gtest
 
 # fast build rule for target.
 gtest/fast:
-	cd /mnt/c/Users/KryStL/Documents/CSE331/cse331-proj3/tests && $(MAKE) -f ext/gtest/CMakeFiles/gtest.dir/build.make ext/gtest/CMakeFiles/gtest.dir/build
+	$(MAKE) -f ext/gtest/CMakeFiles/gtest.dir/build.make ext/gtest/CMakeFiles/gtest.dir/build
 .PHONY : gtest/fast
 
-# Convenience name for target.
-ext/gtest/CMakeFiles/gtest_main.dir/rule:
-	cd /mnt/c/Users/KryStL/Documents/CSE331/cse331-proj3/tests && $(MAKE) -f CMakeFiles/Makefile2 ext/gtest/CMakeFiles/gtest_main.dir/rule
-.PHONY : ext/gtest/CMakeFiles/gtest_main.dir/rule
+#=============================================================================
+# Target rules for targets named gtest_main
 
-# Convenience name for target.
-gtest_main: ext/gtest/CMakeFiles/gtest_main.dir/rule
+# Build rule for target.
+gtest_main: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 gtest_main
 .PHONY : gtest_main
 
 # fast build rule for target.
 gtest_main/fast:
-	cd /mnt/c/Users/KryStL/Documents/CSE331/cse331-proj3/tests && $(MAKE) -f ext/gtest/CMakeFiles/gtest_main.dir/build.make ext/gtest/CMakeFiles/gtest_main.dir/build
+	$(MAKE) -f ext/gtest/CMakeFiles/gtest_main.dir/build.make ext/gtest/CMakeFiles/gtest_main.dir/build
 .PHONY : gtest_main/fast
 
-src/gtest-all.o: src/gtest-all.cc.o
-.PHONY : src/gtest-all.o
+tests.o: tests.cpp.o
+.PHONY : tests.o
 
 # target to build an object file
-src/gtest-all.cc.o:
-	cd /mnt/c/Users/KryStL/Documents/CSE331/cse331-proj3/tests && $(MAKE) -f ext/gtest/CMakeFiles/gtest.dir/build.make ext/gtest/CMakeFiles/gtest.dir/src/gtest-all.cc.o
-.PHONY : src/gtest-all.cc.o
+tests.cpp.o:
+	$(MAKE) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/tests.cpp.o
+.PHONY : tests.cpp.o
 
-src/gtest-all.i: src/gtest-all.cc.i
-.PHONY : src/gtest-all.i
-
-# target to preprocess a source file
-src/gtest-all.cc.i:
-	cd /mnt/c/Users/KryStL/Documents/CSE331/cse331-proj3/tests && $(MAKE) -f ext/gtest/CMakeFiles/gtest.dir/build.make ext/gtest/CMakeFiles/gtest.dir/src/gtest-all.cc.i
-.PHONY : src/gtest-all.cc.i
-
-src/gtest-all.s: src/gtest-all.cc.s
-.PHONY : src/gtest-all.s
-
-# target to generate assembly for a file
-src/gtest-all.cc.s:
-	cd /mnt/c/Users/KryStL/Documents/CSE331/cse331-proj3/tests && $(MAKE) -f ext/gtest/CMakeFiles/gtest.dir/build.make ext/gtest/CMakeFiles/gtest.dir/src/gtest-all.cc.s
-.PHONY : src/gtest-all.cc.s
-
-src/gtest_main.o: src/gtest_main.cc.o
-.PHONY : src/gtest_main.o
-
-# target to build an object file
-src/gtest_main.cc.o:
-	cd /mnt/c/Users/KryStL/Documents/CSE331/cse331-proj3/tests && $(MAKE) -f ext/gtest/CMakeFiles/gtest_main.dir/build.make ext/gtest/CMakeFiles/gtest_main.dir/src/gtest_main.cc.o
-.PHONY : src/gtest_main.cc.o
-
-src/gtest_main.i: src/gtest_main.cc.i
-.PHONY : src/gtest_main.i
+tests.i: tests.cpp.i
+.PHONY : tests.i
 
 # target to preprocess a source file
-src/gtest_main.cc.i:
-	cd /mnt/c/Users/KryStL/Documents/CSE331/cse331-proj3/tests && $(MAKE) -f ext/gtest/CMakeFiles/gtest_main.dir/build.make ext/gtest/CMakeFiles/gtest_main.dir/src/gtest_main.cc.i
-.PHONY : src/gtest_main.cc.i
+tests.cpp.i:
+	$(MAKE) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/tests.cpp.i
+.PHONY : tests.cpp.i
 
-src/gtest_main.s: src/gtest_main.cc.s
-.PHONY : src/gtest_main.s
+tests.s: tests.cpp.s
+.PHONY : tests.s
 
 # target to generate assembly for a file
-src/gtest_main.cc.s:
-	cd /mnt/c/Users/KryStL/Documents/CSE331/cse331-proj3/tests && $(MAKE) -f ext/gtest/CMakeFiles/gtest_main.dir/build.make ext/gtest/CMakeFiles/gtest_main.dir/src/gtest_main.cc.s
-.PHONY : src/gtest_main.cc.s
+tests.cpp.s:
+	$(MAKE) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/tests.cpp.s
+.PHONY : tests.cpp.s
 
 # Help Target
 help:
@@ -222,19 +209,17 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... edit_cache"
-	@echo "... gtest"
-	@echo "... gtest_main"
 	@echo "... install"
 	@echo "... install/local"
 	@echo "... list_install_components"
 	@echo "... rebuild_cache"
 	@echo "... test"
-	@echo "... src/gtest-all.o"
-	@echo "... src/gtest-all.i"
-	@echo "... src/gtest-all.s"
-	@echo "... src/gtest_main.o"
-	@echo "... src/gtest_main.i"
-	@echo "... src/gtest_main.s"
+	@echo "... tests"
+	@echo "... gtest"
+	@echo "... gtest_main"
+	@echo "... tests.o"
+	@echo "... tests.i"
+	@echo "... tests.s"
 .PHONY : help
 
 
@@ -246,6 +231,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	cd /mnt/c/Users/KryStL/Documents/CSE331/cse331-proj3/tests && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	$(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 
